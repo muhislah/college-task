@@ -20,14 +20,14 @@ export interface IFilter {
     orderBy: 'name' | 'status' | 'type' | string,
     order: string,
     search: string,
-    isArchived: boolean,
+    hideArchive: boolean,
 }
 
 const initialFilter = {
     orderBy: 'name',
     order: 'ascending',
     search: '',
-    isArchived: false,
+    hideArchive: true,
 }
 
 const Dashboard = () => {
@@ -73,14 +73,15 @@ const Dashboard = () => {
                                         { label: 'Name', value: 'name' },
                                         { label: 'Type', value: 'type' },
                                         { label: 'Status', value: 'status' },
+                                        { label: 'Date', value: 'createdOn' },
                                     ]}
                                     onChange={(value: any) => setFilter(prev => ({ ...prev, orderBy: value.value }))}
                                 />
                                 <DropDown
-                                    label='A-Z'
+                                    label='Ascending'
                                     options={[
-                                        { label: 'A-Z', value: 'ascending' },
-                                        { label: 'Z-A', value: 'descending' },
+                                        { label: 'Ascending', value: 'ascending' },
+                                        { label: 'Descending', value: 'descending' },
                                     ]}
                                     onChange={(value) => setFilter(prev => ({ ...prev, order: value.value }))}
                                 />

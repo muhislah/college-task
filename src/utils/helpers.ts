@@ -15,6 +15,7 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
         if (filter.search) {
             /* Advanced Filter */
             if (filter.search.toLowerCase().includes('is:archived')) {
+                filter.hideArchive = false
                 newData = newData.filter(data => data.archived)
                 search = search.replace('is:archived', '')
             }
@@ -125,6 +126,10 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
 
             newData = newData.filter(data => data.name.toLowerCase().replaceAll(' ', '').includes(search.toLowerCase().replaceAll(' ', '')))
 
+        }
+
+        if (filter.hideArchive) {
+            newData = newData.filter(data => !data.archived)
         }
 
         newData = newData.sort((a, b) => {
