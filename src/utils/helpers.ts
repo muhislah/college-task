@@ -12,6 +12,7 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
 
         /* search method */
         let search = filter.search
+        filter.hideArchive = true
         if (filter.search) {
             /* Advanced Filter */
             if (filter.search.toLowerCase().includes('is:archived')) {
