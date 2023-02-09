@@ -76,9 +76,9 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
                 search = search.replace('is:editing', '')
             }
 
-            if (filter.search.toLowerCase().includes('is:complete')) {
-                newData = newData.filter(data => data.status.toLowerCase().includes('complete'))
-                search = search.replace('is:complete', '')
+            if (filter.search.toLowerCase().includes('is:completed')) {
+                newData = newData.filter(data => data.status.toLowerCase().includes('completed'))
+                search = search.replace('is:completed', '')
             }
 
             if (filter.search.toLowerCase().includes('is:incomplete')) {
@@ -95,9 +95,9 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
                 search = search.replace('not:editing', '')
             }
 
-            if (filter.search.toLowerCase().includes('not:complete')) {
-                newData = newData.filter(data => !data.status.toLowerCase().includes('complete'))
-                search = search.replace('not:complete', '')
+            if (filter.search.toLowerCase().includes('not:completed')) {
+                newData = newData.filter(data => !data.status.toLowerCase().includes('completed'))
+                search = search.replace('not:completed', '')
             }
 
             if (filter.search.toLowerCase().includes('not:incomplete')) {
@@ -109,20 +109,22 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
                 search = search.replace('not:feedback', '')
             }
 
-            if (filter.search.toLowerCase().split(' ').some(text => text.includes('before:'))) {
-                let arr = filter.search.toLowerCase().split(' ')
+            if (search.toLowerCase().split(' ').some(text => text.includes('before:'))) {
+                let arr = search.toLowerCase().split(' ')
                 let dateIndex = arr.findIndex(text => text.includes('before:'))
                 let date = arr[dateIndex].replace('before:','')
                 newData = newData.filter(data => new Date(data.createdOn) < new Date(date))
                 search = arr.filter((_, index) => index !== dateIndex).join('')
+                console.log(search)
             }
 
-            if (filter.search.toLowerCase().split(' ').some(text => text.includes('after:'))) {
-                let arr = filter.search.toLowerCase().split(' ')
+            if (search.toLowerCase().split(' ').some(text => text.includes('after:'))) {
+                let arr = search.toLowerCase().split(' ')
                 let dateIndex = arr.findIndex(text => text.includes('after:'))
                 let date = arr[dateIndex].replace('after:','')
                 newData = newData.filter(data => new Date(data.createdOn) > new Date(date))
                 search = arr.filter((_, index) => index !== dateIndex).join('')
+                console.log(search)
             }
 
             newData = newData.filter(data => data.name.toLowerCase().replaceAll(' ', '').includes(search.toLowerCase().replaceAll(' ', '')))
