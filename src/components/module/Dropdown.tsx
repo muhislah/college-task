@@ -8,6 +8,7 @@ interface IProps {
     options: {
         value: any,
         label: string
+        icon?: any
     }[]
     onChange: (value: any) => void
 }
@@ -51,9 +52,10 @@ export function DropDown(props: IProps) {
                                         <Menu.Item key={option.value}>
                                             <button
                                                 key={id}
-                                                className='w-full bg-white text-center h-8 shadow-sm'
+                                                className='w-full flex flex-row items-center justify-center gap-2 bg-white text-center h-8 shadow-sm'
                                                 onClick={() => handleChangeOption(option)}
                                             >
+                                                {option.icon || null}
                                                 {option.label}
                                             </button>
                                         </Menu.Item>

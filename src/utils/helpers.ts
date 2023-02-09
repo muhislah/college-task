@@ -15,6 +15,8 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
         filter.hideArchive = true
         if (filter.search) {
             /* Advanced Filter */
+
+            /* Archived & Not Archived */
             if (filter.search.toLowerCase().includes('is:archived')) {
                 filter.hideArchive = false
                 newData = newData.filter(data => data.archived)
@@ -25,6 +27,8 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
                 newData = newData.filter(data => !data.archived)
                 search = search.replace('not:archived', '')
             }
+
+            /* Type */
 
             if (filter.search.toLowerCase().includes('is:educational')) {
                 newData = newData.filter(data => data.type.includes('educational'))
@@ -71,6 +75,8 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
                 search = search.replace('not:recreational', '')
             }
 
+            /* Status */
+
             if (filter.search.toLowerCase().includes('is:editing')) {
                 newData = newData.filter(data => data.status.toLowerCase().includes('editing'))
                 search = search.replace('is:editing', '')
@@ -90,6 +96,11 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
                 search = search.replace('is:feedback', '')
             }
 
+            if (filter.search.toLowerCase().includes('is:shooting')) {
+                newData = newData.filter(data => data.status.toLowerCase().includes('shooting'))
+                search = search.replace('is:shooting', '')
+            }
+
             if (filter.search.toLowerCase().includes('not:editing')) {
                 newData = newData.filter(data => !data.status.toLowerCase().includes('editing'))
                 search = search.replace('not:editing', '')
@@ -107,6 +118,11 @@ export const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
             if (filter.search.toLowerCase().includes('not:feedback')) {
                 newData = newData.filter(data => !data.status.toLowerCase().includes('feedback'))
                 search = search.replace('not:feedback', '')
+            }
+
+            if (filter.search.toLowerCase().includes('not:shooting')) {
+                newData = newData.filter(data => !data.status.toLowerCase().includes('shooting'))
+                search = search.replace('not:shooting', '')
             }
 
             if (search.toLowerCase().split(' ').some(text => text.includes('before:'))) {
