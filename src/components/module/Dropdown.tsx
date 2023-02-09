@@ -3,7 +3,8 @@ import IconArrowBottom from '../icons/IconArrowBottom'
 import { useState } from 'react'
 
 interface IProps {
-    label: string,
+    type?: string
+    label: string | React.ReactNode,
     options: {
         value: any,
         label: string
@@ -22,10 +23,18 @@ export function DropDown(props: IProps) {
     return (
         <Menu>
             <div className='flex flex-col'>
-                <Menu.Button className="bg-white min-w-[100px] relative flex items-center gap-2 bg-opacity-50 rounded-md h-10 border border-[#ababab] px-3 pr-9">
-                    <span>{label || props.label}</span>
-                    <IconArrowBottom className="h-5 w-5 absolute right-2" />
-                </Menu.Button>
+                {
+                    props.type === 'iconButton' ?
+                        <Menu.Button
+                            className="flex flex-col items-center"
+                        >
+                            {props.label}
+                        </Menu.Button> :
+                        <Menu.Button className="bg-white min-w-[100px] relative flex items-center gap-2 bg-opacity-50 rounded-md h-10 border border-[#ababab] px-3 pr-9">
+                            <span>{label || props.label}</span>
+                            <IconArrowBottom className="h-5 w-5 absolute right-2" />
+                        </Menu.Button>
+                }
                 <Transition
                     enter="transition duration-100 ease-out"
                     enterFrom="transform scale-95 opacity-0"
@@ -39,7 +48,7 @@ export function DropDown(props: IProps) {
                             {
                                 props.options && props.options.length ?
                                     props.options.map((option, id) => (
-                                        <Menu.Item>
+                                        <Menu.Item key={option.value}>
                                             <button
                                                 key={id}
                                                 className='w-full bg-white text-center h-8 shadow-sm'

@@ -1,5 +1,7 @@
 import React from 'react'
 import { formatDate } from '../../utils/helpers'
+import { DropDown } from './Dropdown'
+import IconOption from '../icons/IconOption'
 
 interface IProps {
     data: any
@@ -16,6 +18,7 @@ const Table = (props: IProps) => {
                     <th className=''>Type</th>
                     <th className=''>Status</th>
                     <th className=''>Created</th>
+                    <th className=''>Archive</th>
                     <th className=''>Manage</th>
                 </tr>
             </thead>
@@ -23,8 +26,14 @@ const Table = (props: IProps) => {
                 {
                     props.data && props.data.length ?
                         props.data
-                            .filter((_: any, idx: number) => idx > (props.pagination.currentPage - 1) * (props.pagination.limitPerPage))
-                            .filter((_: any, idx: number) => idx < (props.pagination.currentPage * props.pagination.limitPerPage) - ((props.pagination.currentPage - 1 ) * 10))
+                            .filter((_: any, idx: number) => {
+                                let beforeFirstNumber = (props.pagination.currentPage * props.pagination.limitPerPage - 10 -1)
+                                return idx > beforeFirstNumber
+                            })
+                            .filter((_: any, idx: number) => {
+                                let lastIndexNumber = (props.pagination.currentPage * props.pagination.limitPerPage -1) - ((props.pagination.currentPage - 1) * props.pagination.limitPerPage)
+                                return idx <= lastIndexNumber
+                            })
                             .map((item: any, index: number) => (
                                     <tr key={item.id} className='bg-white bg-opacity-80 rounded-md h-10 shadow-sm divide-x'>
                                         <td className='text-center'>{(index + 1) + (( props.pagination.currentPage * props.pagination.limitPerPage) - 10)}.</td>
@@ -33,6 +42,17 @@ const Table = (props: IProps) => {
                                         <td className='text-center'>{item.status}</td>
                                         <td className='text-center'>{formatDate(item.createdOn)}</td>
                                         <td className='text-center'>{item.archived ? 'Archived' : 'Not Archived'}</td>
+                                        <td className='text-center'>
+                                            <DropDown
+                                                type='iconButton'
+                                                label={<IconOption />}
+                                                options={[
+                                                    {value: 'edit', label: 'Edit'},
+                                                    {value: 'delete', label: 'Delete'},
+                                                ]}
+                                                onChange={(value) => console.log(value)}
+                                            />
+                                        </td>
                                     </tr>
                                 )) : null
                 }

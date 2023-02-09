@@ -1,11 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import db from './../../constants/db.json'
 import SearchBox from '../../components/module/SearchBox'
 import { DropDown } from '../../components/module/Dropdown'
 import Table from '../../components/module/Table'
 import Pagination from '../../components/module/Pagination'
+import { generateDataAfterFilter } from '../../utils/helpers'
 
-interface IData {
+export interface IData {
     [key: string]: any
     id: string
     name: string
@@ -15,7 +16,7 @@ interface IData {
     archived: boolean
 }
 
-interface IFilter {
+export interface IFilter {
     orderBy: 'name' | 'status' | 'type' | string,
     order: string,
     search: string,
@@ -44,47 +45,6 @@ const Dashboard = () => {
         }))
     }
 
-    const generateDataAfterFilter = (data: IData[], filter: IFilter) => {
-        let newData = [...data]
-        if (data && data.length) {
-
-            /* search method */
-            let search = filter.search
-            if (filter.search) {
-                if (filter.search.toLowerCase().includes('[is:archived]')) {
-                    newData = newData.filter(data => data.archived)
-                    search = search.replace('[is:archived]', '')
-                }
-
-                if (filter.search.toLowerCase().includes('[is:notarchived]')) {
-                    newData = newData.filter(data => data.archived)
-                    search = search.replace('[is:notarchived]', '')
-                }
-
-                console.log(`-${search}-`)
-
-                newData = newData.filter(data => data.name.toLowerCase().replaceAll(' ', '').includes(search.toLowerCase().replaceAll(' ', '')))
-
-            }
-
-            newData = newData.sort((a, b) => {
-                if (filter.order === 'ascending') {
-                    return a[filter.orderBy as keyof IData] < b[filter.orderBy as keyof IData] ? -1 : 1
-                } else {
-                    return b[filter.orderBy as keyof IData] > a[filter.orderBy as keyof IData] ? 1 : -1
-                }
-            })
-
-            return newData
-        } else {
-            return []
-        }
-    }
-
-    useEffect(() => {
-        console.log(filter)
-    }, [filter])
-
     return (
         <Fragment>
             <div className='mx-auto min-h-screen font-poppins w-full h-full bg-gradient-to-r from-teal-200 to-lime-200 pt-10 pb-10'>
@@ -99,6 +59,7 @@ const Dashboard = () => {
                         {/* Search Box */}
                         <div className='mt-5'>
                             <SearchBox
+                                placeholder='Search you want here'
                                 onChange={handleSearch}
                             />
                         </div>

@@ -36,10 +36,12 @@ const Pagination = (props: IPagination) => {
             limitPerPage: props.limitPerPage || 10,
             totalPage: props.data && props.data.length ? Math.ceil(props.data.length / props.limitPerPage) : 1
         })
+        // eslint-disable-next-line
     }, [props.data.length])
 
     useEffect(() => {
         props.onChange(page)
+        // eslint-disable-next-line
     }, [page.currentPage])
 
     return (
