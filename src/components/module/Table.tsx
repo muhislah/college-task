@@ -46,7 +46,7 @@ const Table = (props: IProps) => {
 
         return (
             <>
-            <div className={`rounded-md m-auto min-w-[80%] border-2 ${components.className} px-3 py-1 flex gap-2 flex-row text-xs items-center`}>
+            <div className={`rounded-md m-auto min-w-[80%] border-2 ${components.className} px-3 py-1 flex justify-center gap-2 flex-row text-xs items-center`}>
                 <Icon className="w-4 h-4"/>
                 <span>
                     {components?.label}
